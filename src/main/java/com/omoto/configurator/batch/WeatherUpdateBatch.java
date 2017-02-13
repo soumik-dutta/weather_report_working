@@ -1,7 +1,6 @@
 package com.omoto.configurator.batch;
 
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.omoto.configurator.model.Weather;
@@ -40,16 +39,17 @@ public class WeatherUpdateBatch {
 
 
     @Scheduled(cron = "* 1 * * * ?")
-    public void hourlyWeatherUpdate(){
-        ObjectMapper objectMapper=new ObjectMapper();
-        String responseJson=new CommonUtils().getJson("http://api.openweathermap.org/data/2.5/weather?q=Bangalore,IN&appid=dfef04093fa06a7ddb963979e8c48341");
-        Map<String,Object> map=new BasicJsonParser().parseMap(responseJson);
-        for(Map.Entry<String, Object> entry : map.entrySet()){
-            if(entry.getKey().equalsIgnoreCase("main")){
+//    @Scheduled(cron = "* 0/1 * * * ?")
+    public void hourlyWeatherUpdate() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseJson = new CommonUtils().getJson("http://api.openweathermap.org/data/2.5/weather?q=Bangalore,IN&appid=dfef04093fa06a7ddb963979e8c48341");
+        Map<String, Object> map = new BasicJsonParser().parseMap(responseJson);
+        map.forEach((key, value) -> {
+            if (key.equalsIgnoreCase("main")) {
                 try {
-                    String json =(objectMapper.writer().withDefaultPrettyPrinter()).writeValueAsString(entry.getValue());
-                    weatherPojo=objectMapper.readValue(json,WeatherPojo.class);
-                    Weather weather=new Weather();
+                    String json = (objectMapper.writer().withDefaultPrettyPrinter()).writeValueAsString(value);
+                    weatherPojo = objectMapper.readValue(json, WeatherPojo.class);
+                    Weather weather = new Weather();
                     weather.setLocation("Bangalore");
                     weather.setCurrentTime(new Date());
                     weather.setAvgTemp(weatherPojo.getTemp());
@@ -60,7 +60,8 @@ public class WeatherUpdateBatch {
                     e.printStackTrace();
                 }
             }
+        });
 
-        }
     }
 }
+

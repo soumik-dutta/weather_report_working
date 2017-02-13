@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +50,14 @@ public class WeatherRepositoryServiceImpl implements WeatherRepositoryService {
                 HttpStatus.OK);
     }
 
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/weather")
+    public Collection<Weather> getWeatherWebSocket() throws Exception {
+        Thread.sleep(1000); // simulated delay
+        Collection<Weather> result = weatherRepository.dailyAsOfNow("Bangalore");
+        return result;
+    }
 
 
 

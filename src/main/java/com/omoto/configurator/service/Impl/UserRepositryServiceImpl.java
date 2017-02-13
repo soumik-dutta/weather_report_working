@@ -31,7 +31,7 @@ public class UserRepositryServiceImpl implements UserRepositryService {
     @Override
     public User findByUser(String user) {
 
-        log.info("UserRepositoryServiceImpl.findByUser");
+        //log.info("UserRepositoryServiceImpl.findByUser");
 
         Assert.hasLength(user, "user is a required attribute!");
 
@@ -42,7 +42,7 @@ public class UserRepositryServiceImpl implements UserRepositryService {
     }
 
     public void delete(User user) {
-        log.info("UserRepositoryServiceImpl.delete");
+        //log.info("UserRepositoryServiceImpl.delete");
         userRepository.delete(user);
 
     }
@@ -56,7 +56,7 @@ public class UserRepositryServiceImpl implements UserRepositryService {
 
     @RequestMapping(value = "/update", params = {"user"}, method = RequestMethod.PUT)
     public int updateProfileData(@RequestParam("user") String user, HttpServletResponse response) {
-        log.info("UserRepositoryServiceImpl.updateProfileData");
+        //log.info("UserRepositoryServiceImpl.updateProfileData");
 
         Assert.notNull(user, "user is a required attribute!");
 
@@ -84,7 +84,7 @@ public class UserRepositryServiceImpl implements UserRepositryService {
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;  // Milliseconds
 
-        log.info("TIMING: Time to add a user: "  +  duration + " ms");
+        //log.info("TIMING: Time to add a user: "  +  duration + " ms");
         return "User created successfully! Time to create new user: " + duration + " ms";
     }
 
