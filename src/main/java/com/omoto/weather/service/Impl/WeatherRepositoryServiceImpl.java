@@ -1,15 +1,13 @@
-package com.omoto.configurator.service.Impl;
+package com.omoto.weather.service.Impl;
 
-import com.omoto.configurator.model.Weather;
-import com.omoto.configurator.repository.WeatherRepository;
-import com.omoto.configurator.service.WeatherRepositoryService;
+import com.omoto.weather.model.Weather;
+import com.omoto.weather.repository.WeatherRepository;
+import com.omoto.weather.service.WeatherRepositoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +25,6 @@ import java.util.Collection;
 @RequestMapping("/weather")
 public class WeatherRepositoryServiceImpl implements WeatherRepositoryService {
 
-
     private WeatherRepository weatherRepository;
 
     @Autowired
@@ -37,6 +34,12 @@ public class WeatherRepositoryServiceImpl implements WeatherRepositoryService {
     }
 
 
+    /**
+     * Get todays Time with temparature
+     * @param location
+     * @param response
+     * @return
+     */
     @RequestMapping(
             value = "/getdaily",
             params = {"location"},
@@ -45,25 +48,11 @@ public class WeatherRepositoryServiceImpl implements WeatherRepositoryService {
     public ResponseEntity<Collection<Weather>> updateProfileData(@RequestParam("location") String location, HttpServletResponse response) {
         log.info("UserRepositoryServiceImpl.updateProfileData");
         Assert.notNull(location, "user is a required attribute!");
-        Collection<Weather> result = weatherRepository.dailyAsOfNow(location);
+        Collection<Weather> result = weatherRepository.todaysForcast(location);
         return new ResponseEntity<Collection<Weather>>(result,
                 HttpStatus.OK);
     }
 
-    /**
-     * Listens the /app/guestbook endpoint and when a message is received, encapsulates it in a MessageDTO instance and relays the resulting object to
-     * the clients listening at the /topic/entries endpoint.
-     *
-     * @return collection of weather object
-     */
-    @MessageMapping("/hello")
-    @SendTo("/topic/weather")
-    public Collection<Weather> getWeatherWebSocket() throws Exception {
-        log.info("request came to websocket server");
-        Thread.sleep(1000); // simulated delay
-        Collection<Weather> result = weatherRepository.dailyAsOfNow("Bangalore");
-        return result;
-    }
 
 
 

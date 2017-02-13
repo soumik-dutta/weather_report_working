@@ -15,12 +15,15 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
+        // use the /topic prefix for outgoing WebSocket communication
         config.enableSimpleBroker("/topic");
+        // use the /app prefix for others
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // use the /websocket endpoint (prefixed with /app as configured above) for incoming requests
         registry.addEndpoint("/websocket").withSockJS();
     }
 }
