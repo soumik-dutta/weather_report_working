@@ -1,6 +1,7 @@
 package com.omoto.configurator.service.Impl;
 
 import com.omoto.configurator.model.Weather;
+import com.omoto.configurator.pojo.WebSocketPojo;
 import com.omoto.configurator.repository.WeatherRepository;
 import com.omoto.configurator.service.WeatherRepositoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,20 +53,18 @@ public class WeatherRepositoryServiceImpl implements WeatherRepositoryService {
 
     /**
      * Listens the /app/guestbook endpoint and when a message is received, encapsulates it in a MessageDTO instance and relays the resulting object to
-     * the clients listening at the /topic/entries endpoint.
+     * the clients listening at the /topic/weather endpoint.
      *
      * @return collection of weather object
      */
     @MessageMapping("/hello")
     @SendTo("/topic/weather")
-    public Collection<Weather> getWeatherWebSocket() throws Exception {
+    public Collection<Weather> getWeatherWebSocket(WebSocketPojo webSocketPojo) throws Exception {
         log.info("request came to websocket server");
         Thread.sleep(1000); // simulated delay
-        Collection<Weather> result = weatherRepository.dailyAsOfNow("Bangalore");
+        Collection<Weather> result = weatherRepository.dailyAsOfNow(webSocketPojo.getLocation());
         return result;
     }
-
-
 
 
     @Override
