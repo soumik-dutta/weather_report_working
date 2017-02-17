@@ -16,6 +16,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
+apply plugin: 'idea'
 
 war {
     baseName = 'configurator'
@@ -40,5 +41,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-websocket')
     compile('mysql:mysql-connector-java')
     compile "org.projectlombok:lombok:1.16.12"
+    compile "com.microsoft.azure:azure:1.0.0-beta5"
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
