@@ -34,10 +34,10 @@ public class ManageVirtualMachine {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.ASIA_SOUTHEAST;
         final String windowsVmName = AzureUtil.createRandomName("wVM");
-        final String linuxVmName = AzureUtil.createRandomName("lVM");
-        final String rgName = AzureUtil.createRandomName("rgCOMV");
+        final String linuxVmName = AzureUtil.createRandomName("LINUX_VM_OMOTO");
+        final String rgName = AzureUtil.createRandomName("OMOTO_RG");
         final String userName = "tirekicker";
         final String password = "12NewPA$$w0rd!";
 
