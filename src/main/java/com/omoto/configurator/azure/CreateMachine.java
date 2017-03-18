@@ -11,7 +11,6 @@ import com.microsoft.rest.LogLevel;
 import com.omoto.configurator.util.AzureUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,26 +21,9 @@ import java.util.Date;
  * Created by omoto on 17/2/17.
  */
 @Slf4j
-@Component
 public class CreateMachine {
 
     private Azure azure;
-    Region region = Region.ASIA_SOUTHEAST;
-    final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-
-
-    //variables from properties
-    @Value("${azure.vmName}")
-    String linuxVmName;
-    @Value("${azure.rgName}")
-    String rgName;
-    @Value("${azure.network}")
-    String network;
-    @Value("${azure.userName}")
-    String userName;
-    @Value("${azure.password}")
-    String password;
-
 
     /**
      * Initailizing Azure object
@@ -60,6 +42,26 @@ public class CreateMachine {
 
         }
     }
+
+
+    Region region = Region.ASIA_SOUTHEAST;
+    final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
+
+
+    //variables from properties
+    @Value("${azure.vmName}")
+    String linuxVmName;
+    @Value("${azure.rgName}")
+    String rgName;
+    @Value("${azure.network}")
+    String network;
+    @Value("${azure.userName}")
+    String userName;
+    @Value("${azure.password}")
+    String password;
+
+
+
 
 
     /**

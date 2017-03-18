@@ -3,7 +3,6 @@ package com.omoto.configurator.service.Impl;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.omoto.configurator.azure.CreateMachine;
 import com.omoto.configurator.pojo.StartMachineRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/azure")
 public class AzureServiceImpl {
 
-    @Autowired
+
     private CreateMachine createMachine;
 
     @RequestMapping(value = "/start",
-            params = {""},
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VirtualMachine> start(@RequestBody StartMachineRequest request) {
+        createMachine = new CreateMachine();
         VirtualMachine virtualMachine = createMachine.createLinuxMachine();
         return new ResponseEntity<VirtualMachine>(virtualMachine, HttpStatus.OK);
     }
